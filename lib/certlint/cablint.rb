@@ -71,14 +71,14 @@ module CertLint
           messages << 'E: SHA-1 not allowed for signing certificates'
         end
         if sa == :weak && c.serial.num_bytes < 8
-          messages << 'W: Serial numbers for certificates using weaker hashes should have at least 64 bits of entropy'
+          messages << 'E: Serial numbers for certificates using weaker hashes should have at least 64 bits of entropy'
         elsif sa == :pss
           messages << 'W: PSS is not supported by most browsers'
         end
       end
 
-      if sa != :weak && c.serial.num_bits < 20
-        messages << 'W: Serial numbers should have at least 20 bits of entropy'
+      if sa != :weak && c.serial.num_bits < 64
+        messages << 'E: Serial numbers should have at least 64 bits of entropy'
       end
 
       begin
